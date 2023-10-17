@@ -1,8 +1,18 @@
+import Footer from './components/footer/Footer';
+import Header from './components/header/Header';
+
 function App() {
+  const getRandomName = () => {
+    const names = ['John', 'Sam', 'Raj'];
+    return names[Math.floor(Math.random() * names.length)];
+  };
+
   return (
-    <header>
-      <h1>hi</h1>
-    </header>
+    <>
+      <Header />
+      <p>{getRandomName()}</p>
+      <Footer />
+    </>
   );
 }
 
