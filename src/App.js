@@ -13,6 +13,10 @@ function App() {
     { id: 5, name: 'Learn Redux', completed: false },
   ]);
 
+  const handleAdd = () => {
+    console.log('Add');
+  };
+
   const handleCheck = (id) => {
     const updatedItems = items.map((item) =>
       item.id === id ? { ...item, completed: !item.completed } : item
@@ -44,6 +48,7 @@ function App() {
       <Header title="React Todo List" />
       <Content
         items={items}
+        handleAdd={handleAdd}
         handleCheck={handleCheck}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
