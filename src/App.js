@@ -23,6 +23,10 @@ function App() {
     updateLocalStorage(updatedItems);
   };
 
+  const handleEdit = (id) => {
+    console.log('Edit item with id: ', id);
+  };
+
   const handleDelete = (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
     setItems(updatedItems);
@@ -41,6 +45,7 @@ function App() {
       <Content
         items={items}
         handleCheck={handleCheck}
+        handleEdit={handleEdit}
         handleDelete={handleDelete}
       />
       <Footer />

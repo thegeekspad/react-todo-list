@@ -1,6 +1,6 @@
 import Item from '../item/Item';
 
-const ItemList = ({ items, handleCheck, handleDelete }) => {
+const ItemList = ({ items, handleCheck, handleEdit, handleDelete }) => {
   return (
     <ul className="list-none w-[500px]">
       {items.map((item) => (
@@ -8,6 +8,7 @@ const ItemList = ({ items, handleCheck, handleDelete }) => {
           key={item.id}
           item={item}
           handleCheck={handleCheck}
+          handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
       ))}
