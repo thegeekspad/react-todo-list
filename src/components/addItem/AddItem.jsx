@@ -1,15 +1,17 @@
-const AddItem = ({ handleAdd }) => {
-  const handleClick = (e) => {
-    e.preventDefault();
-    handleAdd();
+const AddItem = ({ newItem, setNewItem, handleAdd }) => {
+  const handleSubmit = (e) => {
+    handleAdd(e);
   };
 
   return (
-    <form className="flex flex-col space-y-4">
+    <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
       <input
         type="text"
         className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
         placeholder="Enter item description"
+        required
+        value={newItem}
+        onChange={(e) => setNewItem(e.target.value)}
       />
 
       <input
@@ -30,8 +32,7 @@ const AddItem = ({ handleAdd }) => {
 
       <button
         className="mt-4 w-full bg-purple-800 text-white font-semibold p-2 rounded hover:bg-blue-600 transition duration-300"
-        type="submit"
-        onClick={handleClick}>
+        type="submit">
         Add
       </button>
     </form>
