@@ -1,4 +1,8 @@
+import { useRef } from 'react';
+
 const AddItem = ({ newItem, setNewItem, handleAdd }) => {
+  const inputRef = useRef();
+
   const handleSubmit = (e) => {
     handleAdd(e);
   };
@@ -6,6 +10,8 @@ const AddItem = ({ newItem, setNewItem, handleAdd }) => {
   return (
     <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
       <input
+        autoFocus
+        ref={inputRef}
         type="text"
         className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
         placeholder="Enter item description"
@@ -32,7 +38,8 @@ const AddItem = ({ newItem, setNewItem, handleAdd }) => {
 
       <button
         className="mt-4 w-full bg-purple-800 text-white font-semibold p-2 rounded hover:bg-blue-600 transition duration-300"
-        type="submit">
+        type="submit"
+        onClick={() => inputRef.current.focus()}>
         Add
       </button>
     </form>

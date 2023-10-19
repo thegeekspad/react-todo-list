@@ -2,7 +2,7 @@ import Item from '../item/Item';
 
 const ItemList = ({ items, handleCheck, handleEdit, handleDelete }) => {
   return (
-    <ul className="list-none w-[500px]">
+    <ul className="list-none">
       {items.map((item) => (
         <Item
           key={item.id}

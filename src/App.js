@@ -4,6 +4,7 @@ import Content from './components/content/Content';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import AddItem from './components/addItem/AddItem';
+import SearchItem from './components/searchItem/SearchItem';
 
 function App() {
   const [items, setItems] = useState(
@@ -11,6 +12,7 @@ function App() {
   );
 
   const [newItem, setNewItem] = useState('');
+  const [search, setSearch] = useState('');
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -55,8 +57,13 @@ function App() {
         />
       </div>
       <div className="bg-slate-50 p-6 rounded-lg shadow-md m-5">
+        <SearchItem search={search} setSearch={setSearch} />
+      </div>
+      <div className="bg-slate-50 p-6 rounded-lg shadow-md m-5">
         <Content
-          items={items}
+          items={items.filter((item) =>
+            item.name.toLowerCase().includes(search.toLowerCase())
+          )}
           handleCheck={handleCheck}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
