@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Content from './components/content/Content';
 import Footer from './components/footer/Footer';
@@ -22,6 +22,10 @@ function App() {
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
 
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+  }, [items]);
+
   const handleAdd = (e) => {
     e.preventDefault();
     if (newItem === '') return;
@@ -29,7 +33,7 @@ function App() {
       ...items,
       { id: items.length + 1, name: newItem, completed: false },
     ];
-    setAndSaveItems(updatedItems);
+    setItems(updatedItems);
     setNewItem('');
   };
 
@@ -37,7 +41,7 @@ function App() {
     const updatedItems = items.map((item) =>
       item.id === id ? { ...item, completed: !item.completed } : item
     );
-    setAndSaveItems(updatedItems);
+    setItems(updatedItems);
   };
 
   const handleEdit = (id) => {
@@ -46,12 +50,7 @@ function App() {
 
   const handleDelete = (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
-    setAndSaveItems(updatedItems);
-  };
-
-  const setAndSaveItems = (items) => {
-    setItems(items);
-    localStorage.setItem('items', JSON.stringify(items));
+    setItems(updatedItems);
   };
 
   return (
