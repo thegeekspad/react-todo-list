@@ -8,7 +8,15 @@ import SearchItem from './components/searchItem/SearchItem';
 
 function App() {
   const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem('items')) || []
+    JSON.parse(localStorage.getItem('items')) || [
+      { id: 1, name: 'Learn HTML', completed: true },
+      { id: 2, name: 'Learn CSS', completed: false },
+      { id: 3, name: 'Learn JavaScript', completed: false },
+      { id: 4, name: 'Build Simple App', completed: false },
+      { id: 5, name: 'Learn React', completed: false },
+      { id: 6, name: 'Learn Tailwind', completed: false },
+      { id: 7, name: 'Build Complex App', completed: false },
+    ]
   );
 
   const [newItem, setNewItem] = useState('');
