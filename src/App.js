@@ -7,24 +7,32 @@ import AddItem from './components/addItem/AddItem';
 import SearchItem from './components/searchItem/SearchItem';
 
 function App() {
-  const [items, setItems] = useState(
-    JSON.parse(localStorage.getItem('items')) || [
-      { id: 1, name: 'Learn HTML', completed: true },
-      { id: 2, name: 'Learn CSS', completed: false },
-      { id: 3, name: 'Learn JavaScript', completed: false },
-      { id: 4, name: 'Build Simple App', completed: false },
-      { id: 5, name: 'Learn React', completed: false },
-      { id: 6, name: 'Learn Tailwind', completed: false },
-      { id: 7, name: 'Build Complex App', completed: false },
-    ]
-  );
+  const API_URL = 'http://localhost:3500/items';
 
+  const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
+  const [fetchError, setFetchError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem('items', JSON.stringify(items));
-  }, [items]);
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw Error('Error while fetching items');
+        const items = await response.json();
+        setItems(items);
+        setFetchError(null);
+      } catch (error) {
+        setFetchError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    setTimeout(() => {
+      fetchItems();
+    }, 2000);
+  }, []);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -66,16 +74,21 @@ function App() {
       <div className="bg-slate-50 p-6 rounded-lg shadow-md m-5">
         <SearchItem search={search} setSearch={setSearch} />
       </div>
-      <div className="bg-slate-50 p-6 rounded-lg shadow-md m-5">
-        <Content
-          items={items.filter((item) =>
-            item.name.toLowerCase().includes(search.toLowerCase())
-          )}
-          handleCheck={handleCheck}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-      </div>
+      {fetchError && <p>{`${fetchError}`}</p>}
+      {isLoading && <p>Loading data...</p>}
+      {!fetchError && !isLoading && (
+        <div className="bg-slate-50 p-6 rounded-lg shadow-md m-5">
+          <Content
+            items={items.filter((item) =>
+              item.name.toLowerCase().includes(search.toLowerCase())
+            )}
+            handleCheck={handleCheck}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        </div>
+      )}
+
       <Footer />
     </div>
   );
