@@ -24,6 +24,12 @@ Install dependencies
 npm install
 ```
 
+Run JSON Server
+
+```bash
+npx json-server -p 3500 -w data/db.json
+```
+
 Run the application
 
 ```bash
@@ -34,7 +40,7 @@ npm start
 
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org/)
-- [Bootstrap](https://getbootstrap.com/)
+- [TailwindCSS](https://tailwindcss.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [Google Fonts](https://fonts.google.com/)
 
