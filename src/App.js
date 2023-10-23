@@ -5,6 +5,7 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import AddItem from './components/addItem/AddItem';
 import SearchItem from './components/searchItem/SearchItem';
+import TodoAPI from './api/TodoAPI';
 
 function App() {
   const API_URL = 'http://localhost:3500/items';
@@ -34,31 +35,71 @@ function App() {
     }, 2000);
   }, []);
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     if (newItem === '') return;
+    const myNewItem = { id: items.length + 1, name: newItem, completed: false };
     const updatedItems = [
       ...items,
       { id: items.length + 1, name: newItem, completed: false },
     ];
     setItems(updatedItems);
     setNewItem('');
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(myNewItem),
+    };
+
+    const result = await TodoAPI(API_URL, options);
+    if (result) {
+      setFetchError(result);
+      setItems(items);
+    }
   };
 
-  const handleCheck = (id) => {
+  const handleCheck = async (id) => {
     const updatedItems = items.map((item) =>
       item.id === id ? { ...item, completed: !item.completed } : item
     );
     setItems(updatedItems);
+
+    const myItem = items.find((item) => item.id === id);
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ completed: !myItem.completed }),
+    };
+
+    const result = await TodoAPI(`${API_URL}/${id}`, options);
+    if (result) {
+      setFetchError(result);
+      setItems(items);
+    }
   };
 
   const handleEdit = (id) => {
     console.log('Edit item with id: ', id);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const updatedItems = items.filter((item) => item.id !== id);
     setItems(updatedItems);
+
+    const options = {
+      method: 'DELETE',
+    };
+
+    const result = await TodoAPI(`${API_URL}/${id}`, options);
+    if (result) {
+      setFetchError(result);
+      setItems(items);
+    }
   };
 
   return (
